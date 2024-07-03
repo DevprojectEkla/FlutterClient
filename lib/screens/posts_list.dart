@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../models/post.dart';
 import '../screens/post_detail.dart';
+import '../widgets/background_container.dart';
+import '../widgets/customAppBar.dart';
 
 class PostsListScreen extends StatefulWidget {
   @override
@@ -19,9 +21,12 @@ class _PostsListScreenState extends State<PostsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Posts List'),
+    return BackgroundContainer(
+    child:Scaffold(
+    backgroundColor: Colors.transparent,
+      appBar: CustomAppBar(
+        title: 'Posts List'
+
       ),
       body: Center(
         child: FutureBuilder<List<Post>>(
@@ -54,6 +59,6 @@ class _PostsListScreenState extends State<PostsListScreen> {
           },
         ),
       ),
-    );
+    ),);
   }
 }

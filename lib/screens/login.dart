@@ -1,12 +1,17 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../widgets/background_container.dart';
+import '../widgets/customAppBar.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void loginUser(BuildContext context) async {
-    final url = Uri.parse('http://localhost:8000/api/login/'); // Replace with your backend URL
+  Future<void> loginUser(BuildContext context) async {
+    final url = Uri.parse('http://localhost:8000/api/token/'); // Update to your backend URL
 
     try {
       final response = await http.post(
@@ -18,17 +23,23 @@ class LoginScreen extends StatelessWidget {
       );
 
       if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('access', data['access']);
+        await prefs.setString('refresh', data['refresh']);
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Login Successful'),
             duration: Duration(seconds: 2),
           ),
         );
+        Navigator.pushNamed(context, '/'); // Navigate to a different page on successful login
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Login Failed'),
-            duration: Duration(seconds: 2),
+            duration: Duration(seconds: 10),
           ),
         );
       }
@@ -36,7 +47,7 @@ class LoginScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error: $e'),
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 10),
         ),
       );
     }
@@ -44,46 +55,53 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextField(
-                controller: usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
+    return BackgroundContainer(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: CustomAppBar(
+          title: 'Login',
+        ),
+        body: Center(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextField(
+                  controller: usernameController,
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.0),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
+                SizedBox(height: 16.0),
+                TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                  ),
                 ),
-              ),
-              SizedBox(height: 32.0),
-              ElevatedButton(
-                onPressed: () => loginUser(context),
-                child: Text('Login'),
-              ),
-              SizedBox(height: 16.0),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/subscribe');
-                },
-                child: Text('Create Account'),
-              ),
-            ],
+                SizedBox(height: 32.0),
+                ElevatedButton(
+                  onPressed: () => loginUser(context),
+                  child: Text('Login'),
+                ),
+                SizedBox(height: 16.0),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/subscribe');
+                  },
+                  child: Text(
+                    'Create Account',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/post.dart';
+import '../widgets/background_container.dart';
+import '../widgets/customAppBar.dart';
 
 class PostDetail extends StatelessWidget {
   final Post post;
@@ -8,9 +10,11 @@ class PostDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(post.title),
+    return BackgroundContainer(
+    child:Scaffold(
+    backgroundColor: Colors.transparent,
+      appBar: CustomAppBar(
+        title: post.title,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -18,6 +22,7 @@ class PostDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
+            
               post.title,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
@@ -28,7 +33,7 @@ class PostDetail extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),);
   }
 }
 

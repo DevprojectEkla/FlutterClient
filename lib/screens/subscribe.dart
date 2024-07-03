@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../widgets/background_container.dart';
+import '../widgets/customAppBar.dart';
 
 class SignupForm extends StatefulWidget {
   @override
@@ -27,8 +29,8 @@ class _SignupFormState extends State<SignupForm> {
           'first_name': firstNameController.text,
           'username': usernameController.text,
           'email': emailController.text,
-          'password1': password1Controller.text,
-          'password2': password2Controller.text,
+          'password1': passwordController.text,
+          'password2': confirmPasswordController.text,
         }),
       );
 
@@ -66,10 +68,10 @@ class _SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Subscribe'),
-      ),
+    return BackgroundContainer( 
+    child:Scaffold(
+    backgroundColor: Colors.transparent,
+      appBar: CustomAppBar( title: 'Subscribe'),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -147,6 +149,7 @@ class _SignupFormState extends State<SignupForm> {
           ),
         ),
       ),
+    ),
     );
   }
 }

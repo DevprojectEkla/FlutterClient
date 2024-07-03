@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'screens/login.dart';
 import 'screens/posts_list.dart';
 import 'screens/subscribe.dart'; // Ensure this is the correct path to your SignupForm file
+import 'widgets/background_container.dart';
+import 'widgets/customAppBar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,26 +30,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class BackgroundContainer extends StatelessWidget {
-  final Widget child;
 
-  const BackgroundContainer({Key? key, required this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: child,
-      ),
-    );
-  }
-}
 
 class BlogPage extends StatelessWidget {
   final String title;
@@ -58,18 +41,10 @@ class BlogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BackgroundContainer(
       child: Scaffold(
-        appBar: AppBar(
           backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+        appBar: CustomAppBar(
+        title: ' My Blog Tech'
             ),
-          ),
-        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
