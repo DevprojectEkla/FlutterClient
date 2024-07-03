@@ -11,7 +11,7 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> loginUser(BuildContext context) async {
-    final url = Uri.parse('http://localhost:8000/api/token/'); // Update to your backend URL
+    final url = Uri.parse('http://localhost:8000/api/token/'); 
 
     try {
       final response = await http.post(
@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
             duration: Duration(seconds: 2),
           ),
         );
-        Navigator.pushNamed(context, '/'); // Navigate to a different page on successful login
+        Navigator.pushNamed(context, '/home'); 
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

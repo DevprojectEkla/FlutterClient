@@ -22,43 +22,49 @@ class _PostsListScreenState extends State<PostsListScreen> {
   @override
   Widget build(BuildContext context) {
     return BackgroundContainer(
-    child:Scaffold(
-    backgroundColor: Colors.transparent,
-      appBar: CustomAppBar(
-        title: 'Posts List'
-
-      ),
-      body: Center(
-        child: FutureBuilder<List<Post>>(
-          future: futurePosts,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  Post post = snapshot.data![index];
-                  return ListTile(
-                    title: Text(post.title),
-                    subtitle:
-                        Text('by ${post.author.username} on ${post.dateCreated.toLocal()}'),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PostDetail(post: post),
-                        ),
-                      );
-                    },
-                  );
-                },
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            return CircularProgressIndicator();
-          },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: CustomAppBar(title: 'Posts List'),
+        body: Center(
+          child: FutureBuilder<List<Post>>(
+            future: futurePosts,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    Post post = snapshot.data![index];
+                    return Card(
+                      elevation: 4,
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ListTile(
+                        title: Text(post.title),
+                        subtitle: Text(
+                            'by ${post.author.username} on ${post.dateCreated.toLocal()}'),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PostDetail(post: post),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text("${snapshot.error}"));
+              }
+              return Center(child: CircularProgressIndicator());
+            },
+          ),
         ),
       ),
-    ),);
+    );
   }
 }
+

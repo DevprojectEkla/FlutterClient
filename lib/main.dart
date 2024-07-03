@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'screens/login.dart';
 import 'screens/posts_list.dart';
-import 'screens/subscribe.dart'; // Ensure this is the correct path to your SignupForm file
+import 'screens/home.dart';
+import 'screens/subscribe.dart'; 
 import 'widgets/background_container.dart';
 import 'widgets/customAppBar.dart';
 
+import 'services/stateProvider.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()..loadToken()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Blog',
+      title: 'Tech Blog',
+      initialRoute: '/',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+      useMaterial3: true,
       ),
-      home: const BlogPage(title: 'My Blog Tech'),
+      home: const PortalPage(title: 'My Blog Tech'),
+
       routes: {
+        '/home': (context) => HomePage(),
         '/posts_list': (context) => PostsListScreen(),
         '/login': (context) => LoginScreen(),
         '/subscribe': (context) => SignupForm(),
@@ -30,21 +42,33 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
-class BlogPage extends StatelessWidget {
+class PortalPage extends StatelessWidget {
   final String title;
 
-  const BlogPage({Key? key, required this.title}) : super(key: key);
+  const PortalPage({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isAuthenticated = context.select((AuthProvider auth) => auth.accessToken != null);
+
+    Future<void> navigateToNextScreen() async {
+      if (isAuthenticated) {
+        Navigator.pushNamed(context, '/home');
+      } else {
+        Navigator.pushNamed(context, '/login');
+      }
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      navigateToNextScreen();
+    });
+
     return BackgroundContainer(
       child: Scaffold(
-          backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         appBar: CustomAppBar(
-        title: ' My Blog Tech'
-            ),
+          title: ' My Blog Tech',
+        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -54,14 +78,12 @@ class BlogPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Login Section',
+                      'Blog Portal',
                       style: TextStyle(fontSize: 24, color: Colors.white),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/login');
-                      },
-                      child: Text('Login'),
+                      onPressed: navigateToNextScreen, 
+                      child: Text('Enter in my World'),
                     ),
                     SizedBox(height: 20),
                     TextButton(
@@ -79,14 +101,7 @@ class BlogPage extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/posts_list');
-          },
-          tooltip: 'View Posts',
-          child: Icon(Icons.list),
-        ),
-      ),
+              ),
     );
   }
 }
