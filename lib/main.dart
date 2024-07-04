@@ -15,15 +15,17 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()..loadToken()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+    const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+    debugShowCheckedModeBanner:false,
       title: 'Tech Blog',
       initialRoute: '/',
       theme: ThemeData(
@@ -34,9 +36,9 @@ class MyApp extends StatelessWidget {
 
       routes: {
         '/home': (context) => HomePage(),
-        '/posts_list': (context) => PostsListScreen(),
+        '/posts_list': (context) => const PostsListScreen(),
         '/login': (context) => LoginScreen(),
-        '/subscribe': (context) => SignupForm(),
+        '/subscribe': (context) => const SignupForm(),
       },
     );
   }
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
 class PortalPage extends StatelessWidget {
   final String title;
 
-  const PortalPage({Key? key, required this.title}) : super(key: key);
+  const PortalPage({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class PortalPage extends StatelessWidget {
     return BackgroundContainer(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: CustomAppBar(
+        appBar: const CustomAppBar(
           title: ' My Blog Tech',
         ),
         body: Column(
@@ -77,20 +79,20 @@ class PortalPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Blog Portal',
                       style: TextStyle(fontSize: 24, color: Colors.white),
                     ),
                     ElevatedButton(
                       onPressed: navigateToNextScreen, 
-                      child: Text('Enter in my World'),
+                      child: const Text('Enter in my World'),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/subscribe');
                       },
-                      child: Text(
+                      child: const Text(
                         'Subscribe',
                         style: TextStyle(color: Colors.white),
                       ),

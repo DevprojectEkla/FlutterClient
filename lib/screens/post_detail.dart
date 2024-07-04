@@ -22,7 +22,7 @@ class PostDetail extends StatelessWidget {
             child: Center( 
             child: Card(
               elevation: 4,
-              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -37,14 +37,14 @@ class PostDetail extends StatelessWidget {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Center(
                       child: Text(
                         'by ${post.author.username} on ${post.dateCreated.toLocal()}',
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       ),
                     ),
-                    SizedBox(height: 16.0),
+                   const SizedBox(height: 16.0),
                     Text(
                       post.content,
                       style: Theme.of(context).textTheme.bodyLarge,

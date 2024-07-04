@@ -30,9 +30,6 @@ class Post {
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
-      if (json == null){
-              throw FormatException("Null JSON");
-          }
     return Post(
       id: json['id'] as int,
       title: json['title'] as String,

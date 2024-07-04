@@ -6,11 +6,12 @@ import '../widgets/background_container.dart';
 import '../widgets/customAppBar.dart';
 
 class PostsListScreen extends StatefulWidget {
+   const PostsListScreen ({super.key});
   @override
-  _PostsListScreenState createState() => _PostsListScreenState();
+  PostsListScreenState createState() => PostsListScreenState();
 }
 
-class _PostsListScreenState extends State<PostsListScreen> {
+class PostsListScreenState extends State<PostsListScreen> {
   late Future<List<Post>> futurePosts;
 
   @override
@@ -24,7 +25,7 @@ class _PostsListScreenState extends State<PostsListScreen> {
     return BackgroundContainer(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: CustomAppBar(title: 'Posts List'),
+        appBar: const CustomAppBar(title: 'Posts List'),
         body: Center(
           child: FutureBuilder<List<Post>>(
             future: futurePosts,
@@ -36,7 +37,7 @@ class _PostsListScreenState extends State<PostsListScreen> {
                     Post post = snapshot.data![index];
                     return Card(
                       elevation: 4,
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -59,7 +60,7 @@ class _PostsListScreenState extends State<PostsListScreen> {
               } else if (snapshot.hasError) {
                 return Center(child: Text("${snapshot.error}"));
               }
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             },
           ),
         ),
