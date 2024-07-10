@@ -40,12 +40,11 @@ class SignupFormState extends State<SignupForm> {
       );
 
       if (response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Subscription Successful'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Subscription Successful'),
+          duration: Duration(seconds: 2),
+        ));
+        Navigator.pushNamed(context, '/login');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -87,52 +86,55 @@ class SignupFormState extends State<SignupForm> {
             }
           },
           child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  FractionalWidthTextField(
-                  controller: lastNameController,
-                  labelText: 'Last Name',
-                  errorMessage: 'Please enter your last name'
-                  ),
-                  FractionalWidthTextField(controller: firstNameController,
-                  labelText: 'First Name',
-                  errorMessage: 'Please enter your first name'
-                  ),
-                  FractionalWidthTextField(controller: usernameController,
-                  labelText: 'Username',
-                  errorMessage: 'Please enter your username'
-                  ), 
-                  FractionalWidthTextField(controller: emailController,
-                  labelText: 'Email',
-                  errorMessage: 'Please enter your email'
-                  ), 
-                  FractionalWidthTextField(controller: passwordController,
-                  labelText: 'Password',
-                  errorMessage: 'Please enter a password', obscureText: true,
-                  ), 
-                  FractionalWidthTextField(controller: confirmPasswordController,
-                  labelText: 'Confirm Password',
-                  errorMessage: 'Please confirm your password', obscureText: true,
-                  ), 
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        subscribeUser(context);
-                      }
-                    },
-                    child: const Text('Subscribe'),
-                  ),
-                ],
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    FractionalWidthTextField(
+                        controller: lastNameController,
+                        labelText: 'Last Name',
+                        errorMessage: 'Please enter your last name'),
+                    FractionalWidthTextField(
+                        controller: firstNameController,
+                        labelText: 'First Name',
+                        errorMessage: 'Please enter your first name'),
+                    FractionalWidthTextField(
+                        controller: usernameController,
+                        labelText: 'Username',
+                        errorMessage: 'Please enter your username'),
+                    FractionalWidthTextField(
+                        controller: emailController,
+                        labelText: 'Email',
+                        errorMessage: 'Please enter your email'),
+                    FractionalWidthTextField(
+                      controller: passwordController,
+                      labelText: 'Password',
+                      errorMessage: 'Please enter a password',
+                      obscureText: true,
+                    ),
+                    FractionalWidthTextField(
+                      controller: confirmPasswordController,
+                      labelText: 'Confirm Password',
+                      errorMessage: 'Please confirm your password',
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          subscribeUser(context);
+                        }
+                      },
+                      child: const Text('Subscribe'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
         ),
       ),
     );

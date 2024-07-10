@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/background_container.dart';
 import '../widgets/customAppBar.dart';
+import '../services/stateProvider.dart'; // Import AuthProvider
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
-  LoginScreen({
-    super.key,
-  });
+  LoginScreen({super.key});
 
   Future<void> loginUser(BuildContext context) async {
     final url = Uri.parse('http://localhost:8000/api/token/');
@@ -33,6 +33,10 @@ class LoginScreen extends StatelessWidget {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('access', data['access']);
         await prefs.setString('refresh', data['refresh']);
+
+        // Update AuthProvider with new token
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        await authProvider.setToken(data['access']);
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -83,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   FractionallySizedBox(
-                    widthFactor: 1/3,
+                    widthFactor: 1 / 3,
                     child: TextField(
                       controller: usernameController,
                       decoration: const InputDecoration(
@@ -94,7 +98,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16.0),
                   FractionallySizedBox(
-                    widthFactor: 1/3,
+                    widthFactor: 1 / 3,
                     child: TextField(
                       controller: passwordController,
                       obscureText: true,
@@ -103,7 +107,8 @@ class LoginScreen extends StatelessWidget {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),                  const SizedBox(height: 32.0),
+                  ),
+                  const SizedBox(height: 32.0),
                   ElevatedButton(
                     onPressed: () => loginUser(context),
                     child: const Text('Login'),

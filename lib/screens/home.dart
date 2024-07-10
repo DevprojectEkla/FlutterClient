@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../widgets/customAppBar.dart';
 import '../widgets/background_container.dart';
@@ -9,25 +8,26 @@ class HomePage extends StatelessWidget {
     return BackgroundContainer(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: CustomAppBar(title: 'My Blog Tech'),
+        appBar: const CustomAppBar(title: 'My Blog Tech'),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Card(
-              color: Color(0xFFE3F2FD),
+              color: const Color(0xFFE3F2FD),
               elevation: 4,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       'Welcome!',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 16),
                     Text(
@@ -37,7 +37,8 @@ class HomePage extends StatelessWidget {
                     SizedBox(height: 16),
                     Text(
                       'Technologies Used:',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Django, Flutter',
@@ -54,10 +55,9 @@ class HomePage extends StatelessWidget {
             Navigator.pushNamed(context, '/posts_list');
           },
           tooltip: 'View Posts',
-          child: Icon(Icons.list),
+          child: const Icon(Icons.list),
         ),
       ),
     );
   }
 }
-

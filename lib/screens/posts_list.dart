@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../services/api_service.dart';
 import '../models/post.dart';
 import '../screens/post_detail.dart';
 import '../widgets/background_container.dart';
 import '../widgets/customAppBar.dart';
+import '../services/stateProvider.dart';
 
 class PostsListScreen extends StatefulWidget {
-   const PostsListScreen ({super.key});
+  const PostsListScreen({super.key});
   @override
   PostsListScreenState createState() => PostsListScreenState();
 }
@@ -17,7 +19,11 @@ class PostsListScreenState extends State<PostsListScreen> {
   @override
   void initState() {
     super.initState();
-    futurePosts = ApiService().fetchPosts();
+    // Retrieve the AuthProvider instance
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+    // Use the accessToken from AuthProvider to fetch posts
+    futurePosts = ApiService().fetchPosts(authProvider.accessToken);
   }
 
   @override
@@ -37,7 +43,8 @@ class PostsListScreenState extends State<PostsListScreen> {
                     Post post = snapshot.data![index];
                     return Card(
                       elevation: 4,
-                      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -68,4 +75,3 @@ class PostsListScreenState extends State<PostsListScreen> {
     );
   }
 }
-
